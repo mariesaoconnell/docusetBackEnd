@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //==== Redirects ====//
 app.get('/', (req, res) => {
-	res.redirect('/home');
+	res.redirect('/cheatsheets');
 });
 
 //==== Routes ====//
