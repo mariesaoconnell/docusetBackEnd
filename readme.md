@@ -16,6 +16,10 @@ Future Features will include:
       - Comment and Liking notes
   - Rich Text Editor
 
+## API Snap Shot
+![api-screenshot](https://user-images.githubusercontent.com/100657239/198122302-6d4a12ca-3e88-4e92-9d87-60ff6fec5b48.png)
+
+
 ## Installation Instructions
 Steps to Creating your own ✨ Private ✨ set of Notes:
 It's important to note, in order to make this work on your local machine you'll need:
