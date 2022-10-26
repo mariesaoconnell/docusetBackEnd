@@ -4,21 +4,71 @@ const CheatSheet = require('../models/CheatSheet');
 
 // ==== CREATE CRUD OPERATIONS ====
 
-// GET  
+// GET
 router.get('/', (req, res, next) => {
 	CheatSheet.find({})
 		.then((cheatSheets) => res.json(cheatSheets))
 		.catch(next);
 });
 
-// GET CHEATSHEET BY ID  
-router.get('/:id', (req, res, next) => {
+// GET CHEATSHEET BY ID
+router.get('/id/:id', (req, res, next) => {
 	CheatSheet.findById(req.params.id)
 		.then((cheatSheets) => res.json(cheatSheets))
 		.catch(next);
 });
 
-// CREATE 
+// GET BY TITLE
+router.get('/title/:title', async(req, res, next)=>{
+	try{
+		const findAll = await CheatSheet.find({})
+		if(!findAll) return res.status(404).send('Error, cannot be found')
+
+		const filtered = findAll.filter((sheet)=>{
+			if (!sheet.title) return;
+			return (sheet.title.toLowerCase().includes((req.params.title).toLowerCase()))
+		})
+		res.status(200).send(filtered)
+	}
+	catch(err){
+		next(err)
+	}
+})
+// GET BY SUBJECT
+router.get('/subject/:subject', async(req, res, next)=>{
+	try{
+		const findAll = await CheatSheet.find({})
+		if(!findAll) return res.status(404).send('Error, cannot be found')
+
+		const filtered = findAll.filter((sheet)=>{
+			if (!sheet.subject) return;
+			return (sheet.subject.toLowerCase().includes((req.params.subject).toLowerCase()))
+		})
+		res.status(200).send(filtered)
+	}
+	catch(err){
+		next(err)
+	}
+})
+// GET BY SUBJECT
+router.get('/contains/:content', async(req, res, next)=>{
+	try{
+		const findAll = await CheatSheet.find({})
+
+		if(!findAll) return res.status(404).send('Error, cannot be found')
+
+		const filtered = findAll.filter((sheet)=>{
+			if(!sheet.body) return
+			return (sheet.body.toLowerCase().includes(req.params.content.toLowerCase()))
+		})
+		res.status(200).send(filtered)
+	}
+	catch(err){
+		next(err)
+	}
+})
+
+// CREATE
 router.post('/', async (req, res, next) => {
 	try {
 		const newCheatSheet = await CheatSheet.create(req.body);
@@ -30,7 +80,7 @@ router.post('/', async (req, res, next) => {
 });
 
 
-// UPDATE  
+// UPDATE
 router.put('/:id', async (req, res, next) => {
 	try {
 		const updatedCheatSheet = await CheatSheet.findByIdAndUpdate(req.params.id, req.body, {
@@ -43,7 +93,7 @@ router.put('/:id', async (req, res, next) => {
 	}
 });
 
-// DELETE 
+// DELETE
 router.delete('/:id', async (req, res, next) => {
 	try {
 		const deletedCheatSheet = await CheatSheet.findByIdAndDelete(req.params.id);
@@ -54,4 +104,4 @@ router.delete('/:id', async (req, res, next) => {
 	}
 });
 
-module.exports = router; 
+module.exports = router;
