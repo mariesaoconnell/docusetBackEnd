@@ -50,7 +50,7 @@ router.get('/subject/:subject', async(req, res, next)=>{
 		next(err)
 	}
 })
-// GET BY SUBJECT
+// GET BY CONTENT 
 router.get('/contains/:content', async(req, res, next)=>{
 	try{
 		const findAll = await CheatSheet.find({})
